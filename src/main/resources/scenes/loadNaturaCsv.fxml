@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import org.tbee.javafx.scene.layout.fxml.*?>
+<MigPane prefWidth="1024" prefHeight="768"
+         layout="fill"
+         cols="[left, shrink][center][right, grow]"
+         rows="[]20[][]30[grow][shrink]"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="hu.dlaszlo.natura2remek.gui.controller.LoadNaturaCsvController">
+    <padding>
+        <Insets top="25" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <Label text="Kérem töltse be a Natura CSV állományt:" MigPane.cc="span, alignx center"/>
+
+    <Button fx:id="loadNaturaCsvBtn" text="Fájl betöltése" onAction="#loadCsvFile" MigPane.cc="span, alignx center"/>
+
+    <Label fx:id="fileLbl" text="" MigPane.cc="span, alignx center"/>
+
+    <TableView fx:id="errorTbl" MigPane.cc="span, growx, growy" visible="false">
+        <columns>
+            <TableColumn text="Rekord" fx:id="recordColumn"/>
+            <TableColumn text="Típus" fx:id="typeColumn"/>
+            <TableColumn text="Mező" fx:id="fieldColumn"/>
+            <TableColumn text="Üzenet" prefWidth="200" fx:id="messageColumn"/>
+        </columns>
+    </TableView>
+
+    <Label fx:id="infoLbl" MigPane.cc="span 2, grow"/>
+
+    <Button fx:id="nextPageBtn" text="Tovább &gt;" onAction="#nextPage" disable="true"/>
+
+</MigPane>
