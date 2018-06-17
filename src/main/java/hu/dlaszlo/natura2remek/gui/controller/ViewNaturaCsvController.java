@@ -199,7 +199,7 @@ public class ViewNaturaCsvController extends AbstractController
         store.setRemekCsvPackage(remekCsvPackage);
         if (remekCsvPackage.getErrors().isEmpty())
         {
-            // TODO
+            setPage("viewRemekCsv");
         }
         else
         {

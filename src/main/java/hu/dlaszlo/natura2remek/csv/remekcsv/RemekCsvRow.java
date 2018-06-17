@@ -103,6 +103,7 @@ public class RemekCsvRow extends AbstractEntity implements Serializable
     /**
      * 12.(L) Vevő név (60)
      */
+    @NotEmpty
     @Length(max = 60)
     private String vevonev;
 

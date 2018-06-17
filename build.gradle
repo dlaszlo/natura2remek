@@ -44,5 +44,8 @@ dependencies {
 
     compile 'com.miglayout:miglayout-javafx:5.1'
 
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+    compile 'com.fasterxml.jackson.core:jackson-databind'
+
     testCompile 'junit:junit:4.12'
 }

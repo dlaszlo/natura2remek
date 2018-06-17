@@ -15,6 +15,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Natura CSV fájlok betöltése
@@ -115,7 +116,7 @@ public class LoadNaturaCsvController extends AbstractController
         }
         else
         {
-            errorTbl.getItems().setAll(null);
+            errorTbl.getItems().setAll((List<CsvError>)null);
         }
     }
 
