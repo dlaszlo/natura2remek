@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Natura CSV - Remek CSV konvertáló program
