@@ -1,5 +1,7 @@
 package hu.dlaszlo.natura2remek.csv;
 
+import com.google.inject.Inject;
+import hu.dlaszlo.natura2remek.config.ConfigService;
 import hu.dlaszlo.natura2remek.csv.naturacsv.Customer;
 import hu.dlaszlo.natura2remek.csv.naturacsv.InvoiceHeader;
 import hu.dlaszlo.natura2remek.csv.naturacsv.InvoiceItem;
@@ -47,6 +49,9 @@ public class RemekCsvServiceImpl implements RemekCsvService
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
+    @Inject
+    private ConfigService configService;
+
     @Override
     public RemekCsvPackage convert(NaturaCsvPackage naturaCsvPackage)
     {
@@ -63,7 +68,7 @@ public class RemekCsvServiceImpl implements RemekCsvService
             if (customer == null)
             {
                 customer = new Customer(0, 0);
-                customer.setUgyfelKod(Long.valueOf(0));
+                customer.setUgyfelKod(0L);
             }
 
             for (InvoiceItem invoiceItem : invoiceHeader.getInvoiceItems())
@@ -80,13 +85,19 @@ public class RemekCsvServiceImpl implements RemekCsvService
                 remekCsvRow.setAfa(getBigDecimal(invoiceItem.getAfaOsszesenAr()));
                 remekCsvRow.setBrutto(getBigDecimal(invoiceItem.getBruttoOsszesenAr()));
                 remekCsvRow.setMegnevezes(getString(invoiceItem.getTermekMegnevezes(), 40));
-                remekCsvRow.setVevokod(getLong(customer.getUgyfelKod().longValue() + 400000L));
+                remekCsvRow.setVevokod(getLong(customer.getUgyfelKod() + 400000L));
                 remekCsvRow.setVevonev(getString(customer.getNev(), 60));
                 remekCsvRow.setIrszam(getString(customer.getIrszam(), 10));
                 remekCsvRow.setVaros(getString(customer.getVaros(), 40));
                 remekCsvRow.setUtcaHazszam(getString(customer.getCim(), 40));
                 remekCsvRow.setVevoAdoszam(getString(customer.getAdoszam(), 20));
-                remekCsvRow.setKontirozasiParameter1("999");
+                String fokonyviSzam = null;
+                if (StringUtils.isNotBlank(invoiceItem.getCikkszam()))
+                {
+                    fokonyviSzam = configService.getFokonyviSzamok().get(invoiceItem.getCikkszam().trim());
+                }
+
+                remekCsvRow.setKontirozasiParameter1(fokonyviSzam == null ? "999" : fokonyviSzam);
                 remekCsvRow.setKontirozasiParameter2("");
                 remekCsvRow.setKontirozasiParameter3("");
                 remekCsvRow.setKontirozasiParameter4("");
@@ -152,9 +163,7 @@ public class RemekCsvServiceImpl implements RemekCsvService
         Validator validator = validatorFactory.getValidator();
 
         Set<ConstraintViolation<?>> errors = new LinkedHashSet<>();
-
         errors.addAll(validator.validate(remekCsvPackage));
-
         for (RemekCsvRow remekCsvRow : remekCsvPackage.getRows())
         {
             errors.addAll(validator.validate(remekCsvRow));
@@ -178,7 +187,7 @@ public class RemekCsvServiceImpl implements RemekCsvService
 
     private String getBigDecimal(BigDecimal d)
     {
-        String ret = null;
+        String ret;
         if (d != null)
         {
             DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();

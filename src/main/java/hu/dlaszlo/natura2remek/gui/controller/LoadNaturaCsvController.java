@@ -1,6 +1,7 @@
 package hu.dlaszlo.natura2remek.gui.controller;
 
 import com.google.inject.Inject;
+import hu.dlaszlo.natura2remek.config.ConfigService;
 import hu.dlaszlo.natura2remek.guice.store.Store;
 import hu.dlaszlo.natura2remek.csv.NaturaCsvService;
 import hu.dlaszlo.natura2remek.csv.CsvError;
@@ -13,8 +14,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -27,6 +32,9 @@ public class LoadNaturaCsvController extends AbstractController
 
     @Inject
     private Store store;
+
+    @Inject
+    private ConfigService configService;
 
     private StringProperty infoLine = new SimpleStringProperty("");
 
@@ -60,9 +68,7 @@ public class LoadNaturaCsvController extends AbstractController
     @FXML
     private void loadCsvFile()
     {
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Natura CSV fájl megnyitása");
+        FileChooser fileChooser = getFileChooser();
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null)
         {
@@ -98,6 +104,23 @@ public class LoadNaturaCsvController extends AbstractController
                 alert.showAndWait();
             }
         }
+    }
+
+    private FileChooser getFileChooser()
+    {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Natura CSV fájl megnyitása");
+        if (StringUtils.isNotBlank(configService.getNaturaDir()))
+        {
+            Path p = Paths.get(configService.getNaturaDir());
+            if (Files.exists(p) && Files.isDirectory(p))
+            {
+                fileChooser.setInitialDirectory(new File(configService.getNaturaDir()));
+            }
+        }
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
+        return fileChooser;
     }
 
     @FXML

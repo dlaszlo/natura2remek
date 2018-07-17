@@ -1,9 +1,11 @@
 package hu.dlaszlo.natura2remek.gui.controller;
 
 import com.google.inject.Inject;
+import hu.dlaszlo.natura2remek.config.ConfigService;
 import hu.dlaszlo.natura2remek.csv.RemekCsvService;
 import hu.dlaszlo.natura2remek.csv.remekcsv.RemekCsvRow;
 import hu.dlaszlo.natura2remek.guice.store.Store;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
@@ -11,6 +13,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Natura CSV fájlok megtekintése
@@ -22,6 +34,9 @@ public class ViewRemekCsvController extends AbstractController
 
     @Inject
     private RemekCsvService remekCsvService;
+
+    @Inject
+    private ConfigService configService;
 
     private StringProperty infoLine = new SimpleStringProperty("");
 
@@ -119,8 +134,29 @@ public class ViewRemekCsvController extends AbstractController
     @FXML
     private void nextPage()
     {
-        remekCsvService.saveCSV("c:\tmp\tmp.csv", store.getRemekCsvPackage());
+        FileChooser fileChooser = getFileChooser();
+        File f = fileChooser.showSaveDialog(new Stage());
+        remekCsvService.saveCSV(f.getAbsolutePath(), store.getRemekCsvPackage());
+        Platform.exit();
+    }
 
+    private FileChooser getFileChooser()
+    {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Remek CSV fájl mentése");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy_MM_dd");
+        fileChooser.setInitialFileName(dateFormatter.format(LocalDate.now()) + "_remek.csv");
+        if (StringUtils.isNotBlank(configService.getRemekDir()))
+        {
+            Path p = Paths.get(configService.getRemekDir());
+            if (Files.exists(p) && Files.isDirectory(p))
+            {
+                fileChooser.setInitialDirectory(new File(configService.getRemekDir()));
+            }
+        }
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
+        return fileChooser;
     }
 
     @FXML
