@@ -1,5 +1,5 @@
 group 'hu.dlaszlo'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 buildscript {
     repositories {
@@ -15,9 +15,15 @@ repositories {
     jcenter()
 }
 
+apply plugin: 'application'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'java'
+
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
 
 dependencyManagement {
     imports {
@@ -48,4 +54,27 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind'
 
     testCompile 'junit:junit:4.12'
+}
+
+jar {
+    exclude 'kontir.yml'
+    exclude 'logback.xml'
+}
+
+mainClassName = 'hu.dlaszlo.natura2remek.gui.Natura2RemekGui'
+
+applicationDefaultJvmArgs =
+[
+        "-Xmx3G",
+        "-Dfile.encoding=ISO-8859-2",
+        "-Dlogback.configurationFile=MY_APP_HOME/config/logback.xml",
+        "-Dconfig.file=MY_APP_HOME/config/kontir.yml",
+        "-Dlog.directory=MY_APP_HOME/logs"
+]
+
+startScripts {
+    doLast {
+        unixScript.text = unixScript.text.replace('MY_APP_HOME', '\$APP_HOME')
+        windowsScript.text = windowsScript.text.replace('MY_APP_HOME', '%~dp0..')
+    }
 }

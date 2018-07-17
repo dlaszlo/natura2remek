@@ -31,10 +31,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -253,7 +250,7 @@ public class RemekCsvServiceImpl implements RemekCsvService
                         "vevoEUAdoszam"
                 };
 
-                csvPrinter.printRecord(header);
+                csvPrinter.printRecord(Arrays.asList(header));
 
                 for (RemekCsvRow remekCsvRow : remekCsvPackage.getRows())
                 {
@@ -288,7 +285,7 @@ public class RemekCsvServiceImpl implements RemekCsvService
                             remekCsvRow.getVevoEUAdoszam()
                     };
 
-                    csvPrinter.printRecord(row);
+                    csvPrinter.printRecord(Arrays.asList(row));
                 }
 
                 csvPrinter.flush();
