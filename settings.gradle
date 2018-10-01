@@ -1,2 +1,3 @@
 rootProject.name = 'natura2remek'
 
+enableFeaturePreview("IMPROVED_POM_SUPPORT")

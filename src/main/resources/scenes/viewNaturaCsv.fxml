@@ -18,30 +18,40 @@
     <TabPane fx:id="tabPane" MigPane.cc="span, growx, growy">
         <tabs>
             <Tab fx:id="tab1" text="Számlák" closable="false">
-                <TableView fx:id="invoiceHeadersTbl">
-                    <columns>
-                        <TableColumn text="Bizonylat szám" fx:id="bizonylatszamColumn0"/>
-                        <TableColumn text="Számla típus" fx:id="szamlaTipusColumn0"/>
-                        <TableColumn text="Vevő kód" fx:id="vevoKodColumn0"/>
-                        <TableColumn text="Vevő név" fx:id="vevoNevColumn0"/>
-                        <TableColumn text="Fizetési mód" fx:id="fizetesiModColumn0"/>
-                        <TableColumn text="Kiállítás napja" fx:id="kiallitasNapColumn0"/>
-                        <TableColumn text="Teljesítés napja" fx:id="teljesitesNapColumn0"/>
-                        <TableColumn text="Fizetési határidő" fx:id="fizetesiHataridoColumn0"/>
-                        <TableColumn text="Kiegyenlítés napja" fx:id="kiegyenlitesNapjaColumn0"/>
-                        <TableColumn text="Pénznem" fx:id="penznemColumn0"/>
-                        <TableColumn text="Árfolyam" fx:id="arfolyamColumn0"/>
-                        <TableColumn text="Nettó végösszeg" fx:id="nettoVegosszegColumn0"/>
-                        <TableColumn text="ÁFA" fx:id="afaVegosszegColumn0"/>
-                        <TableColumn text="Bruttó végösszeg" fx:id="bruttoVegosszegColumn0"/>
-                        <TableColumn text="Kiegyenlített bruttó összeg" fx:id="kiegyenlitettBruttoOsszegColumn0"/>
-                        <TableColumn text="Stonró / Helyesbítő számlaszám" fx:id="stornoVagyHelyesbSzamlaszamColumn0"/>
-                        <TableColumn text="Stonró / Helyesbítő számla" fx:id="stornoVagyHelyesbitoTipusColumn0"/>
-                        <TableColumn text="Számlacsoport kód" fx:id="szamlacsoportKodColumn0"/>
-                        <TableColumn text="Számlacsoport megnevezés" fx:id="szamlacsoportMegnevezesColumn0"/>
-                        <TableColumn text="Szállítólevél bizonylatszám" fx:id="szallitolevelBizonylatszamColumn0"/>
-                    </columns>
-                </TableView>
+                <MigPane layout="fill"
+                         cols="[200,align right][grow][200,align right, shrink][grow][200,align right, shrink][grow]"
+                         rows="[grow][shrink][shrink][shrink][shrink][shrink][shrink]">
+                    <TableView fx:id="invoiceHeadersTbl" MigPane.cc="span, growx, growy">
+                        <columns>
+                            <TableColumn text="Bizonylat szám" fx:id="bizonylatszamColumn0"/>
+                            <TableColumn text="Számla típus" fx:id="szamlaTipusColumn0"/>
+                            <TableColumn text="Vevő kód" fx:id="vevoKodColumn0"/>
+                            <TableColumn text="Vevő név" fx:id="vevoNevColumn0"/>
+                            <TableColumn text="Fizetési mód" fx:id="fizetesiModColumn0"/>
+                            <TableColumn text="Kiállítás napja" fx:id="kiallitasNapColumn0"/>
+                            <TableColumn text="Teljesítés napja" fx:id="teljesitesNapColumn0"/>
+                            <TableColumn text="Fizetési határidő" fx:id="fizetesiHataridoColumn0"/>
+                            <TableColumn text="Kiegyenlítés napja" fx:id="kiegyenlitesNapjaColumn0"/>
+                            <TableColumn text="Pénznem" fx:id="penznemColumn0"/>
+                            <TableColumn text="Árfolyam" fx:id="arfolyamColumn0"/>
+                            <TableColumn text="Nettó végösszeg" fx:id="nettoVegosszegColumn0"/>
+                            <TableColumn text="ÁFA" fx:id="afaVegosszegColumn0"/>
+                            <TableColumn text="Bruttó végösszeg" fx:id="bruttoVegosszegColumn0"/>
+                            <TableColumn text="Kiegyenlített bruttó összeg" fx:id="kiegyenlitettBruttoOsszegColumn0"/>
+                            <TableColumn text="Stonró / Helyesbítő számlaszám" fx:id="stornoVagyHelyesbSzamlaszamColumn0"/>
+                            <TableColumn text="Stonró / Helyesbítő számla" fx:id="stornoVagyHelyesbitoTipusColumn0"/>
+                            <TableColumn text="Számlacsoport kód" fx:id="szamlacsoportKodColumn0"/>
+                            <TableColumn text="Számlacsoport megnevezés" fx:id="szamlacsoportMegnevezesColumn0"/>
+                            <TableColumn text="Szállítólevél bizonylatszám" fx:id="szallitolevelBizonylatszamColumn0"/>
+                        </columns>
+                    </TableView>
+                    <Label text="Nettó összesen:"/>
+                    <TextField fx:id="nettoOsszesenTxt" MigPane.cc="growx" editable="false"/>
+                    <Label text="ÁFA összesen:"/>
+                    <TextField fx:id="afaOsszesenTxt" MigPane.cc="growx" editable="false"/>
+                    <Label text="Bruttó összesen:"/>
+                    <TextField fx:id="bruttoOsszesenTxt" MigPane.cc="growx" editable="false"/>
+                </MigPane>
             </Tab>
             <Tab fx:id="tab2" text="Tételek" closable="true">
                 <MigPane layout="fill"

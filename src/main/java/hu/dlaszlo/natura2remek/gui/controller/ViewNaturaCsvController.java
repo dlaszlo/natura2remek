@@ -2,21 +2,21 @@ package hu.dlaszlo.natura2remek.gui.controller;
 
 import com.google.inject.Inject;
 import hu.dlaszlo.natura2remek.csv.RemekCsvService;
-import hu.dlaszlo.natura2remek.csv.remekcsv.RemekCsvPackage;
-import hu.dlaszlo.natura2remek.guice.store.Store;
 import hu.dlaszlo.natura2remek.csv.naturacsv.Customer;
 import hu.dlaszlo.natura2remek.csv.naturacsv.InvoiceHeader;
 import hu.dlaszlo.natura2remek.csv.naturacsv.InvoiceItem;
+import hu.dlaszlo.natura2remek.csv.remekcsv.RemekCsvPackage;
+import hu.dlaszlo.natura2remek.gui.utils.FormatUtils;
+import hu.dlaszlo.natura2remek.guice.store.Store;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -50,6 +50,15 @@ public class ViewNaturaCsvController extends AbstractController
 
     @FXML
     private Tab tab2;
+
+    @FXML
+    private TextField nettoOsszesenTxt;
+
+    @FXML
+    private TextField afaOsszesenTxt;
+
+    @FXML
+    private TextField bruttoOsszesenTxt;
 
     @FXML
     private TableColumn<InvoiceHeader, String> bizonylatszamColumn0;
@@ -280,6 +289,24 @@ public class ViewNaturaCsvController extends AbstractController
 
         invoiceHeadersTbl.getItems().setAll(store.getNaturaCsvPackage().getInvoiceHeaders());
 
+        BigDecimal totalNetto = store.getNaturaCsvPackage().getInvoiceHeaders().stream()
+                .filter(h -> "HUF".equals(h.getPenznem()))
+                .map(InvoiceHeader::getNettoVegosszeg).reduce(BigDecimal.ZERO, BigDecimal::add);
+        nettoOsszesenTxt.setText(FormatUtils.formatAmount(totalNetto) + " Ft.");
+        nettoOsszesenTxt.setAlignment(Pos.BASELINE_RIGHT);
+
+        BigDecimal totalAFA = store.getNaturaCsvPackage().getInvoiceHeaders().stream()
+                .filter(h -> "HUF".equals(h.getPenznem()))
+                .map(InvoiceHeader::getAfaVegosszeg).reduce(BigDecimal.ZERO, BigDecimal::add);
+        afaOsszesenTxt.setText(FormatUtils.formatAmount(totalAFA) + " Ft.");
+        afaOsszesenTxt.setAlignment(Pos.BASELINE_RIGHT);
+
+        BigDecimal totalBrutto = store.getNaturaCsvPackage().getInvoiceHeaders().stream()
+                .filter(h -> "HUF".equals(h.getPenznem()))
+                .map(InvoiceHeader::getBruttoVegosszeg).reduce(BigDecimal.ZERO, BigDecimal::add);
+        bruttoOsszesenTxt.setText(FormatUtils.formatAmount(totalBrutto) + " Ft.");
+        bruttoOsszesenTxt.setAlignment(Pos.BASELINE_RIGHT);
+
         mennyisegColumn1.setCellFactory(getBigDecimalCellFactory());
         nettoArColumn1.setCellFactory(getBigDecimalCellFactory());
         bruttoArColumn1.setCellFactory(getBigDecimalCellFactory());
@@ -316,26 +343,13 @@ public class ViewNaturaCsvController extends AbstractController
     private <T> javafx.util.Callback<TableColumn<T, BigDecimal>, TableCell<T, BigDecimal>> getBigDecimalCellFactory()
     {
         return param -> {
-
-            DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
-            decimalFormatSymbols.setDecimalSeparator(',');
-            decimalFormatSymbols.setGroupingSeparator(' ');
-            decimalFormatSymbols.setMinusSign('-');
-            DecimalFormat decimalFormat = new DecimalFormat("#,##0.00", decimalFormatSymbols);
             TableCell<T, BigDecimal> cell = new TableCell<T, BigDecimal>()
             {
                 @Override
                 protected void updateItem(BigDecimal item, boolean empty)
                 {
                     super.updateItem(item, empty);
-                    if (empty || item == null)
-                    {
-                        setText("");
-                    }
-                    else
-                    {
-                        setText(decimalFormat.format(item));
-                    }
+                    setText(empty || item == null ? "" : FormatUtils.formatAmount(item));
                 }
             };
             cell.setStyle("-fx-alignment: CENTER-RIGHT;");

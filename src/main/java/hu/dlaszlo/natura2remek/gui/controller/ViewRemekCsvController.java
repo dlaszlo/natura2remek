@@ -4,20 +4,24 @@ import com.google.inject.Inject;
 import hu.dlaszlo.natura2remek.config.ConfigService;
 import hu.dlaszlo.natura2remek.csv.RemekCsvService;
 import hu.dlaszlo.natura2remek.csv.remekcsv.RemekCsvRow;
+import hu.dlaszlo.natura2remek.gui.utils.FormatUtils;
 import hu.dlaszlo.natura2remek.guice.store.Store;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,6 +46,15 @@ public class ViewRemekCsvController extends AbstractController
 
     @FXML
     private Label infoLbl;
+
+    @FXML
+    private TextField nettoOsszesenTxt;
+
+    @FXML
+    private TextField afaOsszesenTxt;
+
+    @FXML
+    private TextField bruttoOsszesenTxt;
 
     @FXML
     private TableView<RemekCsvRow> csvTbl;
@@ -198,6 +211,27 @@ public class ViewRemekCsvController extends AbstractController
         vevoEUAdoszamColumn.setCellValueFactory(new PropertyValueFactory("vevoEUAdoszam"));
 
         csvTbl.getItems().setAll(store.getRemekCsvPackage().getRows());
+
+        BigDecimal totalNetto = store.getRemekCsvPackage().getRows().stream()
+                .filter(r -> "HUF".equals(r.getDevizaNem()) || StringUtils.isBlank(r.getDevizaNem()))
+                .map(RemekCsvRow::getNetto).map(FormatUtils::parseCsvBigDecimal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        nettoOsszesenTxt.setText(FormatUtils.formatAmount(totalNetto) + " Ft.");
+        nettoOsszesenTxt.setAlignment(Pos.BASELINE_RIGHT);
+
+        BigDecimal totalAFA = store.getRemekCsvPackage().getRows().stream()
+                .filter(r -> "HUF".equals(r.getDevizaNem()) || StringUtils.isBlank(r.getDevizaNem()))
+                .map(RemekCsvRow::getAfa).map(FormatUtils::parseCsvBigDecimal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        afaOsszesenTxt.setText(FormatUtils.formatAmount(totalAFA) + " Ft.");
+        afaOsszesenTxt.setAlignment(Pos.BASELINE_RIGHT);
+
+        BigDecimal totalBrutto = store.getRemekCsvPackage().getRows().stream()
+                .filter(r -> "HUF".equals(r.getDevizaNem()) || StringUtils.isBlank(r.getDevizaNem()))
+                .map(RemekCsvRow::getBrutto).map(FormatUtils::parseCsvBigDecimal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        bruttoOsszesenTxt.setText(FormatUtils.formatAmount(totalBrutto) + " Ft.");
+        bruttoOsszesenTxt.setAlignment(Pos.BASELINE_RIGHT);
 
         infoLbl.textProperty().bind(infoLine);
     }

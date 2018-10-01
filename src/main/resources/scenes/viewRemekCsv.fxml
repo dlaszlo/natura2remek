@@ -14,38 +14,48 @@
         <Insets top="25" right="15" bottom="15" left="15"/>
     </padding>
 
-    <TableView fx:id="csvTbl" MigPane.cc="span, growx, growy">
-        <columns>
-            <TableColumn text="Számlaszám" fx:id="szamlaszamColumn" />
-            <TableColumn text="Kiállítás dátuma" fx:id="kiallitasDatumaColumn" />
-            <TableColumn text="Teljesítés kelte" fx:id="teljesitesKelteColumn" />
-            <TableColumn text="Fiz.határid" fx:id="fizetesiHataridoColumn" />
-            <TableColumn text="Fiz.mód" fx:id="fizetesiModColumn" />
-            <TableColumn text="ÁFA%" fx:id="afaSzazalekColumn" />
-            <TableColumn text="Nettó" fx:id="nettoColumn" />
-            <TableColumn text="ÁFA" fx:id="afaColumn" />
-            <TableColumn text="Bruttó" fx:id="bruttoColumn" />
-            <TableColumn text="Megnevezés" fx:id="megnevezesColumn" />
-            <TableColumn text="Vevőkód" fx:id="vevokodColumn" />
-            <TableColumn text="Vevő név" fx:id="vevonevColumn" />
-            <TableColumn text="Ir.szám" fx:id="irszamColumn" />
-            <TableColumn text="Város" fx:id="varosColumn" />
-            <TableColumn text="Utca,házszám" fx:id="utcaHazszamColumn" />
-            <TableColumn text="Vevő adószáma" fx:id="vevoAdoszamColumn" />
-            <TableColumn text="Kontírozási paraméter #1" fx:id="kontirozasiParameter1Column" />
-            <TableColumn text="Kontírozási paraméter #2" fx:id="kontirozasiParameter2Column" />
-            <TableColumn text="Kontírozási paraméter #3" fx:id="kontirozasiParameter3Column" />
-            <TableColumn text="Kontírozási paraméter #4" fx:id="kontirozasiParameter4Column" />
-            <TableColumn text="Kontírozási paraméter #5" fx:id="kontirozasiParameter5Column" />
-            <TableColumn text="Kontírozási paraméter #6" fx:id="kontirozasiParameter6Column" />
-            <TableColumn text="Devizanem" fx:id="devizaNemColumn" />
-            <TableColumn text="Nettó deviza" fx:id="nettoDevizaColumn" />
-            <TableColumn text="ÁFA deviza" fx:id="afaDevizaColumn" />
-            <TableColumn text="Bruttó deviza" fx:id="bruttoDevizaColumn" />
-            <TableColumn text="Vevő címe (ha nincs mezőkre bontva)" fx:id="vevoCimeEgybenColumn" />
-            <TableColumn text="Vevő EU adószáma" fx:id="vevoEUAdoszamColumn" />
-        </columns>
-    </TableView>
+    <MigPane layout="fill" MigPane.cc="span, growx, growy"
+             cols="[200:100:100,align right][grow][200:100:100,align right, shrink][grow][200:100:100,align right, shrink][grow]"
+             rows="[grow][shrink][shrink][shrink][shrink][shrink][shrink]">
+        <TableView fx:id="csvTbl" MigPane.cc="span, growx, growy">
+            <columns>
+                <TableColumn text="Számlaszám" fx:id="szamlaszamColumn" />
+                <TableColumn text="Kiállítás dátuma" fx:id="kiallitasDatumaColumn" />
+                <TableColumn text="Teljesítés kelte" fx:id="teljesitesKelteColumn" />
+                <TableColumn text="Fiz.határid" fx:id="fizetesiHataridoColumn" />
+                <TableColumn text="Fiz.mód" fx:id="fizetesiModColumn" />
+                <TableColumn text="ÁFA%" fx:id="afaSzazalekColumn" />
+                <TableColumn text="Nettó" fx:id="nettoColumn" />
+                <TableColumn text="ÁFA" fx:id="afaColumn" />
+                <TableColumn text="Bruttó" fx:id="bruttoColumn" />
+                <TableColumn text="Megnevezés" fx:id="megnevezesColumn" />
+                <TableColumn text="Vevőkód" fx:id="vevokodColumn" />
+                <TableColumn text="Vevő név" fx:id="vevonevColumn" />
+                <TableColumn text="Ir.szám" fx:id="irszamColumn" />
+                <TableColumn text="Város" fx:id="varosColumn" />
+                <TableColumn text="Utca,házszám" fx:id="utcaHazszamColumn" />
+                <TableColumn text="Vevő adószáma" fx:id="vevoAdoszamColumn" />
+                <TableColumn text="Kontírozási paraméter #1" fx:id="kontirozasiParameter1Column" />
+                <TableColumn text="Kontírozási paraméter #2" fx:id="kontirozasiParameter2Column" />
+                <TableColumn text="Kontírozási paraméter #3" fx:id="kontirozasiParameter3Column" />
+                <TableColumn text="Kontírozási paraméter #4" fx:id="kontirozasiParameter4Column" />
+                <TableColumn text="Kontírozási paraméter #5" fx:id="kontirozasiParameter5Column" />
+                <TableColumn text="Kontírozási paraméter #6" fx:id="kontirozasiParameter6Column" />
+                <TableColumn text="Devizanem" fx:id="devizaNemColumn" />
+                <TableColumn text="Nettó deviza" fx:id="nettoDevizaColumn" />
+                <TableColumn text="ÁFA deviza" fx:id="afaDevizaColumn" />
+                <TableColumn text="Bruttó deviza" fx:id="bruttoDevizaColumn" />
+                <TableColumn text="Vevő címe (ha nincs mezőkre bontva)" fx:id="vevoCimeEgybenColumn" />
+                <TableColumn text="Vevő EU adószáma" fx:id="vevoEUAdoszamColumn" />
+            </columns>
+        </TableView>
+        <Label text="Nettó összesen:"/>
+        <TextField fx:id="nettoOsszesenTxt" MigPane.cc="growx" editable="false"/>
+        <Label text="ÁFA összesen:"/>
+        <TextField fx:id="afaOsszesenTxt" MigPane.cc="growx" editable="false"/>
+        <Label text="Bruttó összesen:"/>
+        <TextField fx:id="bruttoOsszesenTxt" MigPane.cc="growx" editable="false"/>
+    </MigPane>
 
     <Label fx:id="infoLbl" MigPane.cc="span 2, grow"/>
     <HBox>
