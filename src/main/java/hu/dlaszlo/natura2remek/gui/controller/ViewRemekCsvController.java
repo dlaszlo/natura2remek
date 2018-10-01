@@ -149,8 +149,11 @@ public class ViewRemekCsvController extends AbstractController
     {
         FileChooser fileChooser = getFileChooser();
         File f = fileChooser.showSaveDialog(new Stage());
-        remekCsvService.saveCSV(f.getAbsolutePath(), store.getRemekCsvPackage());
-        Platform.exit();
+        if (f != null)
+        {
+            remekCsvService.saveCSV(f.getAbsolutePath(), store.getRemekCsvPackage());
+            Platform.exit();
+        }
     }
 
     private FileChooser getFileChooser()
