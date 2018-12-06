@@ -57,7 +57,7 @@ public class RemekCsvRow extends AbstractEntity implements Serializable
      * 06.(F) ÁFA% (20)
      */
     @NotEmpty
-    @Pattern(regexp = "[0-9]+(\\,[0-9]{1,4})?")
+    @Pattern(regexp = "[0-9]+(,[0-9]{1,4})?")
     @Length(max = 20)
     private String afaSzazalek;
 
@@ -65,7 +65,7 @@ public class RemekCsvRow extends AbstractEntity implements Serializable
      * 07.(G) Nettó (20)
      */
     @NotEmpty
-    @Pattern(regexp = "[0-9]+(\\,[0-9]{1,4})?")
+    @Pattern(regexp = "-{0,1}[0-9]+(,[0-9]{1,4})?")
     @Length(max = 20)
     private String netto;
 
@@ -73,7 +73,7 @@ public class RemekCsvRow extends AbstractEntity implements Serializable
      * 08.(H) ÁFA (20)
      */
     @NotEmpty
-    @Pattern(regexp = "[0-9]+(\\,[0-9]{1,4})?")
+    @Pattern(regexp = "-{0,1}[0-9]+(,[0-9]{1,4})?")
     @Length(max = 20)
     private String afa;
 
@@ -81,7 +81,7 @@ public class RemekCsvRow extends AbstractEntity implements Serializable
      * 09.(I) Bruttó (20)
      */
     @NotEmpty
-    @Pattern(regexp = "[0-9]+(\\,[0-9]{1,4})?")
+    @Pattern(regexp = "-{0,1}[0-9]+(,[0-9]{1,4})?")
     @Length(max = 20)
     private String brutto;
 
