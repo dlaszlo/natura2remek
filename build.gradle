@@ -35,3 +35,7 @@ dependencies {
 
     testImplementation 'junit:junit'
 }
+
+bootJar {
+    mainClass = 'hu.dlaszlo.natura2remek.Natura2Remek'
+}
