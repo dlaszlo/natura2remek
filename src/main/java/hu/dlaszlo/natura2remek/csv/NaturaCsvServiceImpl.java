@@ -8,8 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-import javax.inject.Singleton;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 /**
  * Natura CSV fájl betöltése, validálása - megvalósítás
  */
-@Singleton
+@Service
 public class NaturaCsvServiceImpl implements NaturaCsvService
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(NaturaCsvServiceImpl.class);
@@ -45,7 +45,7 @@ public class NaturaCsvServiceImpl implements NaturaCsvService
 
         LOGGER.info("CSV fájl betöltése: {}", fileName);
         Path p = Paths.get(fileName);
-        try (Reader in = Files.newBufferedReader(p, Charset.defaultCharset()))
+        try (Reader in = Files.newBufferedReader(p, Charset.forName("ISO-8859-2")))
         {
             List<CSVRecord> recordList = CSVFormat.newFormat('|')
                     .withAllowMissingColumnNames()

@@ -1,6 +1,5 @@
 package hu.dlaszlo.natura2remek.csv;
 
-import com.google.inject.Inject;
 import hu.dlaszlo.natura2remek.config.ConfigService;
 import hu.dlaszlo.natura2remek.csv.naturacsv.Customer;
 import hu.dlaszlo.natura2remek.csv.naturacsv.InvoiceHeader;
@@ -14,8 +13,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.inject.Singleton;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 /**
  * Remek CSV fájl konvertálása, validálása, mentése - megvalósítás
  */
-@Singleton
+@Service
 public class RemekCsvServiceImpl implements RemekCsvService
 {
 
@@ -46,7 +46,7 @@ public class RemekCsvServiceImpl implements RemekCsvService
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
-    @Inject
+    @Autowired
     private ConfigService configService;
 
     @Override
@@ -213,7 +213,7 @@ public class RemekCsvServiceImpl implements RemekCsvService
 
         Path p = Paths.get(filename);
 
-        try (BufferedWriter out = Files.newBufferedWriter(p, Charset.defaultCharset()))
+        try (BufferedWriter out = Files.newBufferedWriter(p, Charset.forName("ISO-8859-2")))
         {
 
             try (CSVPrinter csvPrinter = new CSVPrinter(out, CSVFormat.newFormat(';').withEscape(null).withQuote(null).withRecordSeparator("\r\n")))

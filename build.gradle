@@ -1,68 +1,37 @@
-group 'hu.dlaszlo'
-version '1.1'
 
-repositories {
-    mavenCentral()
-    maven { url "https://repo.spring.io/snapshot" }
-    maven { url "https://repo.spring.io/milestone" }
-    maven { url "https://repo.spring.io/release" }
+plugins {
+    id 'org.springframework.boot' version '2.4.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
-apply plugin: 'application'
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
+group 'hu.dlaszlo'
+version '1.2'
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
-dependencies {
-    implementation 'io.spring.platform:platform-bom:Cairo-SR3'
+repositories {
+    mavenCentral()
+}
 
-    implementation 'org.apache.commons:commons-csv:1.5'
-    implementation 'commons-cli:commons-cli'
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.apache.commons:commons-csv:1.8'
     implementation 'org.apache.commons:commons-lang3'
-    implementation 'commons-beanutils:commons-beanutils'
+    implementation 'commons-beanutils:commons-beanutils:1.9.4'
 
     implementation 'javax.validation:validation-api'
     implementation 'org.hibernate.validator:hibernate-validator'
     implementation 'org.hibernate.validator:hibernate-validator-annotation-processor'
-    implementation 'javax.el:javax.el-api'
-    implementation 'org.glassfish.web:javax.el:2.2.6'
+    implementation 'org.glassfish:jakarta.el:3.0.3'
 
     implementation 'org.slf4j:slf4j-api'
     implementation 'ch.qos.logback:logback-classic'
 
-    implementation 'com.google.inject:guice:4.2.0'
-
-    implementation 'com.miglayout:miglayout-javafx:5.1'
-
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
 
-    testImplementation 'junit:junit:4.12'
-}
-
-jar {
-    exclude 'kontir.yml'
-    exclude 'logback.xml'
-}
-
-mainClassName = 'hu.dlaszlo.natura2remek.gui.Natura2RemekGui'
-
-applicationDefaultJvmArgs =
-[
-        "-Xmx3G",
-        "-Dfile.encoding=ISO-8859-2",
-        "-Dlogback.configurationFile=MY_APP_HOME/config/logback.xml",
-        "-Dconfig.file=MY_APP_HOME/config/kontir.yml",
-        "-Dlog.directory=MY_APP_HOME/logs"
-]
-
-startScripts {
-    doLast {
-        unixScript.text = unixScript.text.replace('MY_APP_HOME', '\$APP_HOME')
-        windowsScript.text = windowsScript.text.replace('MY_APP_HOME', '%~dp0..')
-    }
+    testImplementation 'junit:junit'
 }
