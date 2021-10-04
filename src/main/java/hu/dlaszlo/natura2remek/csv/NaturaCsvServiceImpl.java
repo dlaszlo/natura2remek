@@ -50,6 +50,7 @@ public class NaturaCsvServiceImpl implements NaturaCsvService
             List<CSVRecord> recordList = CSVFormat.newFormat('|')
                     .withAllowMissingColumnNames()
                     .withTrim()
+                    .withIgnoreEmptyLines()
                     .withEscape('\\')
                     .withQuoteMode(QuoteMode.NONE)
                     .parse(in).getRecords();
