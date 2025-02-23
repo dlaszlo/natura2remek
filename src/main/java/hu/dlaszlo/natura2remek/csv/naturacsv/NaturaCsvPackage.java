@@ -3,8 +3,8 @@ package hu.dlaszlo.natura2remek.csv.naturacsv;
 import hu.dlaszlo.natura2remek.csv.AbstractEntity;
 import hu.dlaszlo.natura2remek.csv.CsvError;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

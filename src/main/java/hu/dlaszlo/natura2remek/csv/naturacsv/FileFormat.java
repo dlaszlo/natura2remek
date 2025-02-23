@@ -2,8 +2,8 @@ package hu.dlaszlo.natura2remek.csv.naturacsv;
 
 import hu.dlaszlo.natura2remek.csv.AbstractEntity;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Objects;
 
